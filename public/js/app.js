@@ -3,8 +3,8 @@ var app = angular.module("myApp", [  'ui.bootstrap', 'ui.bootstrap.modal',
     'ui.bootstrap.tpls']);
 
 app.controller("myCtrl",  function($scope, $http, $httpParamSerializer) {
-    $scope.headers = ["Task", "Priority", "Due Date"];
-    $scope.fields=["name", "priority", "dueDate"];
+    $scope.headers = ["Priority", "Task", "Due Date"];
+    $scope.fields=["priority", "name",  "dueDate"];
     $scope.sortBy = "";
     $scope.order = -1;
 
@@ -86,6 +86,9 @@ app.controller("myCtrl",  function($scope, $http, $httpParamSerializer) {
     }
     $scope.complete = function(task) {
 
+    }
+    $scope.closeAlert = function() {
+      $scope.closed = true;
     }
     $scope.load();
 });
