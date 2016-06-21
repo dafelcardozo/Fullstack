@@ -11,7 +11,7 @@ app.configure(function () {
 });
 
 app.get('/tasks/pending/', tasks.findPending);
-app.get('/tasks/overdue/', tasks.findPending);
+app.get('/tasks/overdue/', tasks.findOverdue);
 app.post('/task/', tasks.createTask);
 app.post('/task/update/:id', tasks.updateTask);
 app.get('/task/destroy/:id', tasks.deleteTask);

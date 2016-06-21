@@ -7,15 +7,18 @@ app.controller("myCtrl",  function($scope, $http, $httpParamSerializer) {
     $scope.sortBy = "";
     $scope.order = -1;
 
-    $scope.loadPending = function() {
+    $scope.load = function() {
       var p = $httpParamSerializer({
            field:$scope.sortBy,
            order:$scope.order
          });
       $http.get("/tasks/pending/?"+p)
       .then(function(response) {
-          $scope.overdue = response.data;
           $scope.pending = response.data;
+      });
+      $http.get("/tasks/overdue/")
+      .then(function(response) {
+          $scope.overdue = response.data;
       });
     }
 
@@ -37,7 +40,7 @@ app.controller("myCtrl",  function($scope, $http, $httpParamSerializer) {
     $scope.sort = function($index) {
       $scope.sortBy = $scope.fields[$index];
       $scope.order = -$scope.order;
-      $scope.loadPending();
+      $scope.load();
     }
     $scope.createTask = function() {
       setTimeout(function () {
@@ -49,7 +52,7 @@ app.controller("myCtrl",  function($scope, $http, $httpParamSerializer) {
         };
         console.info("task.dueDate: "+task.dueDate);
         $http.post("/task/", task).then(function () {
-          $scope.loadPending();
+          $scope.load();
         //   $scope.created = true;
         //   setTimeout(function() {
         //     console.info("Closing");
@@ -61,5 +64,5 @@ app.controller("myCtrl",  function($scope, $http, $httpParamSerializer) {
       }, 1000);
 
     }
-    $scope.loadPending();
+    $scope.load();
 });

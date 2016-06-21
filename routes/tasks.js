@@ -51,8 +51,8 @@ exports.findOverdue = function(req, res) {
     // sort[field] = parseInt(req.query.order||"1");
 
     db.collection('tasks', function(err, collection) {
-        collection.find()
-      //  .sort(sort)
+        collection.find({ dueDate: { $lt: new Date() } })
+        .sort({priority:1})
         .toArray(function(err, items) {
             res.send(items);
         });
@@ -60,14 +60,12 @@ exports.findOverdue = function(req, res) {
 };
 
 exports.findPending = function(req, res) {
-  console.info("Pending");
-
     var field = req.query.field || "name";
     var sort = {};
     sort[field] = parseInt(req.query.order||"1");
-
+console.info("pending");
     db.collection('tasks', function(err, collection) {
-        collection.find()
+        collection.find({ dueDate: { $gt: new Date() } })
         .sort(sort)
         .toArray(function(err, items) {
             res.send(items);
@@ -77,6 +75,7 @@ exports.findPending = function(req, res) {
 
 exports.createTask = function(req, res) {
     var task = req.body;
+    task.dueDate = new Date(task.dueDate);
 //    console.log('Adding task: ' + JSON.stringify(task));
     db.collection('tasks', function(err, collection) {
         collection.insert(task, {safe:true}, function(err, result) {
@@ -95,6 +94,7 @@ exports.updateTask = function(req, res) {
     var task = req.body;
     console.log('Updating task: ' + id);
     console.log(JSON.stringify(task));
+
     db.collection('tasks', function(err, collection) {
         collection.update({'_id':new BSON.ObjectID(id)}, task, {safe:true}, function(err, result) {
             if (err) {
