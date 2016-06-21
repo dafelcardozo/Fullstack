@@ -57,6 +57,8 @@ app.controller("myCtrl",  function($scope, $http, $httpParamSerializer) {
         console.info("task.dueDate: "+task.dueDate);
         $http.post("/task/", task).then(function () {
           $scope.load();
+          $scope.name = null;
+          $scope.priority = null;
         //   $scope.created = true;
         //   setTimeout(function() {
         //     console.info("Closing");

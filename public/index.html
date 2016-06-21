@@ -2,7 +2,9 @@
 <html ng-app="myApp"  ng-controller="myCtrl">
 <head>
   <meta charset="utf-8">
-  <title>Scheduled tasks</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tasks scheduler</title>
   <style media="screen">
   body {
     padding-top: 50px;
@@ -12,9 +14,19 @@
     text-align: center;
   }
   </style>
-  <link rel="stylesheet" href="js/bootstrap/dist/css/bootstrap.css" media="screen" title="no title" charset="utf-8">
+<!--  <link rel="stylesheet" href="js/bootstrap/dist/css/bootstrap.css" media="screen" title="no title" charset="utf-8"> -->
+  <link href="startbootstrap-freelancer-1.0.5/css/bootstrap.css" rel="stylesheet">
+
   <link rel="stylesheet" href="js/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
   <link rel="stylesheet" href="js/angular-bootstrap/ui-bootstrap-csp.css" media="screen" title="no title" charset="utf-8">
+  <!-- Custom CSS -->
+   <link href="startbootstrap-freelancer-1.0.5/css/freelancer.css" rel="stylesheet">
+
+   <!-- Custom Fonts -->
+   <link href="startbootstrap-freelancer-1.0.5/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+   <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+   <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
   <script src="js/jquery/dist/jquery.js" charset="utf-8"></script>
   <script src="js/bootstrap/dist/js/bootstrap.js" charset="utf-8"></script>
   <script src="js/angular/angular.js" charset="utf-8"></script>
@@ -26,10 +38,10 @@
   <script src="js/moment/min/moment.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="/js/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 </head>
-<body>
-  <nav class="navbar navbar-inverse navbar-fixed-top">
+<body id="page-top" class="index">
+  <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
-      <div class="navbar-header">
+      <div class="navbar-header  page-scroll">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
@@ -47,6 +59,21 @@
       </div><!--/.nav-collapse -->
     </div>
   </nav>
+  <!-- Header -->
+<header>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <img class="img-responsive" src="startbootstrap-freelancer-1.0.5/img/profile.png" alt="">
+                <div class="intro-text">
+                    <span class="name">Rock3rlabs - Task scheduling platform</span>
+                    <hr class="star-light">
+                    <span class="skills">Felipe Cardozo - Web Developer</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
   <div class="container">
     <div class="starter-template">
       <h2>You have overdue tasks !</h2>
@@ -79,17 +106,13 @@
               </thead>
               <tbody>
                 <tr ng-repeat="t in pending">
-                  <td>{{t.name}}</td>
-                  <td>{{t.priority}}</td>
-                  <td>{{formatDate(t.dueDate)}}</td>
-                  <td>
-                    <button type="button" ng-click="delete(t)"  class="btn btn-primary"  >
+                  <td>{{t.name}}</td><td>{{t.priority}}</td><td>{{formatDate(t.dueDate)}}</td>
+                  <td><button type="button" ng-click="delete(t)"  class="btn btn-primary"  >
                       <span class="glyphicon glyphicon-remove"></span>
                     </button>
                     <button ng-click="complete(t)"   class="btn btn-primary" >
                       <span class="glyphicon glyphicon-ok"></span>
-                    </button>
-                  </td>
+                    </button></td>
                 </tr>
               </tbody>
             </table>
@@ -105,7 +128,7 @@
   <!-- Modal -->
   <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
-
+<form role="form">
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
@@ -115,17 +138,15 @@
         <div class="modal-body">
           <div class="form-group">
             <label for="name">Name:</label>
-            <input type="text" class="form-control" id="name" ng-model="name">
+            <input type="text" class="form-control" id="name" ng-model="name" placeholder="Enter a name for this task...">
           </div>
           <div class="form-group">
             <label  for="priority">Priority:</label>
-            <div >
-              <select class="form-control" ng-model="priority">
-                <option>Inmediate</option>
-                <option>High</option>
-                <option>Low</option>
-              </select>
-            </div>
+            <select class="form-control" ng-model="priority" placeholder="Select a priority...">
+              <option>Inmediate</option>
+              <option>High</option>
+              <option>Low</option>
+            </select>
           </div>
         </div>
         <div class="form-group">
@@ -134,7 +155,7 @@
                 <div class='col-sm-6'>
                     <div class="form-group">
                         <div class='input-group date' id='datetimepicker1'>
-                            <input type='text' class="form-control" ng-model="dueDate"/>
+                            <input type='text' class="form-control" ng-model="dueDate" placeholder="Select the due date"/>
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
@@ -148,6 +169,7 @@
           <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="createTask()">OK</button>
         </div>
       </div>
+    </form>
     </div>
   </div>
   <script src="js/app.js" charset="utf-8"></script>

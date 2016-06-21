@@ -29,28 +29,8 @@ exports.findById = function(req, res) {
         });
     });
 };
-/*
-exports.findAll = function(req, res) {
-    var field = req.query.field || "name";
-    var sort = {};
-    sort[field] = parseInt(req.query.order||"1");
-
-    db.collection('tasks', function(err, collection) {
-        collection.find()
-        .sort(sort)
-        .toArray(function(err, items) {
-            res.send(items);
-        });
-    });
-};
-*/
-
 
 exports.findOverdue = function(req, res) {
-    // var field = req.query.field || "name";
-    // var sort = {};
-    // sort[field] = parseInt(req.query.order||"1");
-
     db.collection('tasks', function(err, collection) {
         collection.find({ dueDate: { $lt: new Date() } })
         .sort({priority:1})
@@ -64,7 +44,6 @@ exports.findPending = function(req, res) {
     var field = req.query.field || "name";
     var sort = {};
     sort[field] = parseInt(req.query.order||"1");
-console.info("pending");
     db.collection('tasks', function(err, collection) {
         collection.find({ dueDate: { $gt: new Date() } })
         .sort(sort)
@@ -77,7 +56,6 @@ console.info("pending");
 exports.createTask = function(req, res) {
     var task = req.body;
     task.dueDate = new Date(task.dueDate);
-//    console.log('Adding task: ' + JSON.stringify(task));
     db.collection('tasks', function(err, collection) {
         collection.insert(task, {safe:true}, function(err, result) {
             if (err) {
@@ -113,41 +91,16 @@ exports.deleteTask = function(req, res) {
     var id = req.params.id;
     db.collection('tasks').deleteOne({"_id": new BSON.ObjectID(id)}, function (err, results) {
           res.send("deleted");
-      //   callback();
-      });
-    /*
-    db.collection('tasks', function(err, collection) {
-        console.info("Here, collection: "+collection);
-        collection.remove({'_id':new BSON.ObjectID(id)}, {safe:true}, function(err, result) {
-            if (err) {
-                res.send({'error':'An error has occurred - ' + err});
-            } else {
-                console.log('' + result + ' document(s) deleted');
-                res.send(req.body);
-            }
-        });
     });
-    */
 }
 
-
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-// Populate database with sample data -- Only used once: the first time the application is started.
-// You'd typically not find this code in a real-life app, since the database would already exist.
 var populateDB = function() {
-
     var tasks = [
     {
         name: "Implement API",
         priority: "Inmediate",
         dueDate: new Date(),
     },
-    // {
-    //     name: "Unit test API",
-    //     priority: "High",
-    //     dueDate: new Date()
-    // },
     {
       name:"Deploy to AWS EC2",
       priority:"Low",
@@ -159,9 +112,7 @@ var populateDB = function() {
       dueDate:new Date()
     }
   ];
-
     db.collection('tasks', function(err, collection) {
         collection.insert(tasks, {safe:true}, function(err, result) {});
     });
-
 };
