@@ -1,5 +1,6 @@
 
-var app = angular.module("myApp", []);
+var app = angular.module("myApp", [  'ui.bootstrap', 'ui.bootstrap.modal',
+    'ui.bootstrap.tpls']);
 
 app.controller("myCtrl",  function($scope, $http, $httpParamSerializer) {
     $scope.headers = ["Name", "Priority", "Due Date"];
@@ -37,6 +38,9 @@ app.controller("myCtrl",  function($scope, $http, $httpParamSerializer) {
     $scope.formatDate = function (date){
       return moment(date).format("dddd, MMMM Do YYYY, h:mm:ss a");
     }
+    $scope.formatFromNow = function(date) {
+      return moment(date).fromNow();
+    }
     $scope.sort = function($index) {
       $scope.sortBy = $scope.fields[$index];
       $scope.order = -$scope.order;
@@ -64,5 +68,20 @@ app.controller("myCtrl",  function($scope, $http, $httpParamSerializer) {
       }, 1000);
 
     }
+    $scope.delete = function (task) {
+      console.info("task.id: "+task._id);
+      $http.get("/task/destroy/"+task._id)
+      .then(function () {
+        $scope.load();
+      });
+    }
+    $scope.complete = function(task) {
+
+    }
     $scope.load();
+});
+
+
+$(function () {
+    $('#datetimepicker1').datetimepicker();
 });

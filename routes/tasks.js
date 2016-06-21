@@ -6,6 +6,7 @@ var Server = mongo.Server,
 
 var server = new Server('localhost', 27017, {auto_reconnect: true});
 db = new Db('tasks', server);
+var BSON = require('bson').BSONPure;
 
 db.open(function(err, db) {
     if(!err) {
@@ -110,8 +111,13 @@ exports.updateTask = function(req, res) {
 
 exports.deleteTask = function(req, res) {
     var id = req.params.id;
-    console.log('Deleting task: ' + id);
+    db.collection('tasks').deleteOne({"_id": new BSON.ObjectID(id)}, function (err, results) {
+          res.send("deleted");
+      //   callback();
+      });
+    /*
     db.collection('tasks', function(err, collection) {
+        console.info("Here, collection: "+collection);
         collection.remove({'_id':new BSON.ObjectID(id)}, {safe:true}, function(err, result) {
             if (err) {
                 res.send({'error':'An error has occurred - ' + err});
@@ -121,6 +127,7 @@ exports.deleteTask = function(req, res) {
             }
         });
     });
+    */
 }
 
 
@@ -136,11 +143,11 @@ var populateDB = function() {
         priority: "Inmediate",
         dueDate: new Date(),
     },
-    {
-        name: "Unit test API",
-        priority: "High",
-        dueDate: new Date()
-    },
+    // {
+    //     name: "Unit test API",
+    //     priority: "High",
+    //     dueDate: new Date()
+    // },
     {
       name:"Deploy to AWS EC2",
       priority:"Low",

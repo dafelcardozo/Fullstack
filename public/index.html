@@ -2,7 +2,7 @@
 <html ng-app="myApp"  ng-controller="myCtrl">
 <head>
   <meta charset="utf-8">
-  <title>Tareas programadas</title>
+  <title>Scheduled tasks</title>
   <style media="screen">
   body {
     padding-top: 50px;
@@ -14,10 +14,15 @@
   </style>
   <link rel="stylesheet" href="js/bootstrap/dist/css/bootstrap.css" media="screen" title="no title" charset="utf-8">
   <link rel="stylesheet" href="js/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+  <link rel="stylesheet" href="js/angular-bootstrap/ui-bootstrap-csp.css" media="screen" title="no title" charset="utf-8">
   <script src="js/jquery/dist/jquery.js" charset="utf-8"></script>
   <script src="js/bootstrap/dist/js/bootstrap.js" charset="utf-8"></script>
   <script src="js/angular/angular.js" charset="utf-8"></script>
+  <script src="js/angular-animate/angular-animate.js"></script>
   <script src="js/angular-bootstrap/ui-bootstrap.js" charset="utf-8"></script>
+  <script src="js/angular-bootstrap/ui-bootstrap-tpls.js" charset="utf-8"></script>
+
+
   <script src="js/moment/min/moment.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="/js/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 </head>
@@ -35,8 +40,8 @@
       </div>
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#">My Tasks</a></li>
-          <li><a href="#about">About me</a></li>
+          <li class="active"><a href="#">Scheduled tasks</a></li>
+          <li><a href="#about">Users</a></li>
           <li><a href="#contact">Contact me</a></li>
         </ul>
       </div><!--/.nav-collapse -->
@@ -45,10 +50,10 @@
   <div class="container">
     <div class="starter-template">
       <h2>You have overdue tasks !</h2>
-      <p class="lead" ng-repeat="t in overdue">
-        Task '{{t.name}}' was due {{t.dueDate}}, and its priority is  {{t.priority}}
-      </p>
-      <span ng-hide="overdue">No overdue tasks... don't be overconfident !</span>
+      <uib-alert ng-repeat="t in overdue" type="danger" close="closeAlert($index)">
+         Task {{t.name}} was due <i>{{formatFromNow(t.dueDate)}}</i>, and its priority is  {{t.priority}}
+       </uib-alert>
+      <span ng-hide="overdue">No overdue tasks... don't get too overconfident !</span>
 
 
       <div class="panel-group">
@@ -69,7 +74,7 @@
                     <span class="glyphicon glyphicon-sort-by-attributes" ng-show="order == 1 && fields[$index] == sortBy" style="float:right"></span>
                     <span class="glyphicon glyphicon-sort-by-attributes-alt" ng-show="order == -1  && fields[$index] == sortBy" style="float:right"></span>
                   </th>
-
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -80,6 +85,14 @@
                   </td>
                   <td>
                     {{formatDate(t.dueDate)}}
+                  </td>
+                  <td>
+                    <button type="button" ng-click="delete(t)"  class="btn btn-primary"  >
+                      <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                    <button ng-click="complete(t)"   class="btn btn-primary" >
+                      <span class="glyphicon glyphicon-ok"></span>
+                    </button>
                   </td>
                 </tr>
               </tbody>
@@ -132,11 +145,6 @@
                         </div>
                     </div>
                 </div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('#datetimepicker1').datetimepicker();
-                    });
-                </script>
             </div>
         </div>
         </div>
@@ -148,5 +156,6 @@
   </div>
   <script src="js/app.js" charset="utf-8"></script>
 
+</script>
 </body>
 </html>
