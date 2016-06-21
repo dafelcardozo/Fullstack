@@ -3,7 +3,7 @@ var app = angular.module("myApp", [  'ui.bootstrap', 'ui.bootstrap.modal',
     'ui.bootstrap.tpls']);
 
 app.controller("myCtrl",  function($scope, $http, $httpParamSerializer) {
-    $scope.headers = ["Name", "Priority", "Due Date"];
+    $scope.headers = ["Task", "Priority", "Due Date"];
     $scope.fields=["name", "priority", "dueDate"];
     $scope.sortBy = "";
     $scope.order = -1;

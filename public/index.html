@@ -80,12 +80,8 @@
               <tbody>
                 <tr ng-repeat="t in pending">
                   <td>{{t.name}}</td>
-                  <td>
-                    {{t.priority}}
-                  </td>
-                  <td>
-                    {{formatDate(t.dueDate)}}
-                  </td>
+                  <td>{{t.priority}}</td>
+                  <td>{{formatDate(t.dueDate)}}</td>
                   <td>
                     <button type="button" ng-click="delete(t)"  class="btn btn-primary"  >
                       <span class="glyphicon glyphicon-remove"></span>
