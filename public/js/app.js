@@ -16,6 +16,9 @@ app.controller("myCtrl",  function($scope, $http, $httpParamSerializer) {
       $http.get("/tasks/pending/?"+p)
       .then(function(response) {
           $scope.pending = response.data;
+          // for each (t in $scope.pending){
+          //   t.level =
+          // }
       });
       $http.get("/tasks/overdue/")
       .then(function(response) {
@@ -76,6 +79,10 @@ app.controller("myCtrl",  function($scope, $http, $httpParamSerializer) {
       .then(function () {
         $scope.load();
       });
+    }
+    $scope.priorityColor = function (priority) {
+      var classes = {"Inmediate":"danger", "Low":"info", "High":"warning"};
+      return classes[priority];
     }
     $scope.complete = function(task) {
 
