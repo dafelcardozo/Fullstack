@@ -46,13 +46,13 @@ exports.findAll = function(req, res) {
 
 
 exports.findOverdue = function(req, res) {
-    var field = req.query.field || "name";
-    var sort = {};
-    sort[field] = parseInt(req.query.order||"1");
+    // var field = req.query.field || "name";
+    // var sort = {};
+    // sort[field] = parseInt(req.query.order||"1");
 
     db.collection('tasks', function(err, collection) {
         collection.find()
-        .sort(sort)
+      //  .sort(sort)
         .toArray(function(err, items) {
             res.send(items);
         });
@@ -68,7 +68,7 @@ exports.findPending = function(req, res) {
 
     db.collection('tasks', function(err, collection) {
         collection.find()
-      //  .sort(sort)
+        .sort(sort)
         .toArray(function(err, items) {
             res.send(items);
         });
