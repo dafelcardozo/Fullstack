@@ -152,7 +152,7 @@
               -->
                 <tbody>
                   <tr ng-repeat="t in completed">
-                    <td >{{t.priority}}</td><td>{{t.name}}</td><td><span uib-tooltip="{{formatDate(t.dueDate)}}">{{formatFromNow(t.dueDate)}}</span></td>
+                    <td >{{t.priority}}</td><td>{{t.name}}</td><td><span uib-tooltip="{{formatDate(t.completionDate)}}">{{formatFromNow(t.completionDate)}}</span></td>
                     <td>
                       <div class="btn-group">
                         <button ng-click="complete(t)"   class="btn btn-primary btn-sm" uib-tooltip="Set as completed">
