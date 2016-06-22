@@ -16,13 +16,14 @@ app.controller("myCtrl",  function($scope, $http, $httpParamSerializer) {
       $http.get("/tasks/pending/?"+p)
       .then(function(response) {
           $scope.pending = response.data;
-          // for each (t in $scope.pending){
-          //   t.level =
-          // }
       });
       $http.get("/tasks/overdue/")
       .then(function(response) {
           $scope.overdue = response.data;
+      });
+      $http.get("/tasks/completed/")
+      .then(function(response) {
+          $scope.completed = response.data;
       });
     }
 
@@ -74,7 +75,6 @@ app.controller("myCtrl",  function($scope, $http, $httpParamSerializer) {
 
     }
     $scope.delete = function (task) {
-      console.info("task.id: "+task._id);
       $http.get("/task/destroy/"+task._id)
       .then(function () {
         $scope.load();
@@ -85,10 +85,10 @@ app.controller("myCtrl",  function($scope, $http, $httpParamSerializer) {
       return classes[priority];
     }
     $scope.complete = function(task) {
-
-    }
-    $scope.closeAlert = function() {
-      $scope.closed = true;
+      $http.post("/task/update/"+task._id, task)
+      .then(function () {
+        $scope.load();
+      });
     }
     $scope.load();
 });

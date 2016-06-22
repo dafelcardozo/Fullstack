@@ -53,6 +53,17 @@ exports.findPending = function(req, res) {
     });
 };
 
+
+exports.findCompleted = function(req, res) {
+    db.collection('tasks', function(err, collection) {
+        collection.find({ completionDate: { $exists: true, $ne: null  } })
+        .sort({completionDate:-1})
+        .toArray(function(err, items) {
+            res.send(items);
+        });
+    });
+};
+
 exports.createTask = function(req, res) {
     var task = req.body;
     task.dueDate = new Date(task.dueDate);
@@ -71,6 +82,8 @@ exports.createTask = function(req, res) {
 exports.updateTask = function(req, res) {
     var id = req.params.id;
     var task = req.body;
+    task.completionDate = new Date();
+    task._id = new BSON.ObjectID(task._id);
     console.log('Updating task: ' + id);
     console.log(JSON.stringify(task));
 
