@@ -32,7 +32,7 @@ exports.findById = function(req, res) {
 
 exports.findOverdue = function(req, res) {
     db.collection('tasks', function(err, collection) {
-        collection.find({ dueDate: { $lt: new Date() } })
+        collection.find({ dueDate: { $lt: new Date() }, completionDate:{$exists:false} })
         .sort({priority:1})
         .toArray(function(err, items) {
             res.send(items);
@@ -45,14 +45,13 @@ exports.findPending = function(req, res) {
     var sort = {};
     sort[field] = parseInt(req.query.order||"1");
     db.collection('tasks', function(err, collection) {
-        collection.find({ dueDate: { $gt: new Date() } })
+        collection.find({ dueDate: { $gt: new Date()}, completionDate:{$exists:false}})
         .sort(sort)
         .toArray(function(err, items) {
             res.send(items);
         });
     });
 };
-
 
 exports.findCompleted = function(req, res) {
     db.collection('tasks', function(err, collection) {
@@ -81,20 +80,29 @@ exports.createTask = function(req, res) {
 
 exports.updateTask = function(req, res) {
     var id = req.params.id;
-    var task = req.body;
-    task.completionDate = new Date();
-    task._id = new BSON.ObjectID(task._id);
-    console.log('Updating task: ' + id);
-    console.log(JSON.stringify(task));
-
     db.collection('tasks', function(err, collection) {
-        collection.update({'_id':new BSON.ObjectID(id)}, task, {safe:true}, function(err, result) {
+        collection.update({'_id':new BSON.ObjectID(id)}, {$set:{completionDate:new Date()}}, {safe:true}, function(err, result) {
             if (err) {
                 console.log('Error updating task: ' + err);
                 res.send({'error':'An error has occurred'});
             } else {
                 console.log('' + result + ' document(s) updated');
-                res.send(task);
+                res.send("OK");
+            }
+        });
+    });
+}
+
+exports.undoTask = function(req, res) {
+    var id = req.params.id;
+    db.collection('tasks', function(err, collection) {
+        collection.update({'_id':new BSON.ObjectID(id)}, { $unset: { completionDate: ""} }, {safe:true}, function(err, result) {
+            if (err) {
+                console.log('Error updating task: ' + err);
+                res.send({'error':'An error has occurred'});
+            } else {
+                console.log('' + result + ' document(s) updated');
+                res.send("OK");
             }
         });
     });

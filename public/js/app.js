@@ -90,6 +90,12 @@ app.controller("myCtrl",  function($scope, $http, $httpParamSerializer) {
         $scope.load();
       });
     }
+    $scope.undoComplete = function(task) {
+      $http.post("/task/undo/"+task._id, task)
+      .then(function () {
+        $scope.load();
+      });
+    }
     $scope.load();
 });
 
