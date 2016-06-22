@@ -1,3 +1,8 @@
 # Fullstack
-This is my answer to the full stack test, using MongoDB, AngularJS ,Node.js, Bootstrap.
-I will provide a testing URL on Amazon AWS. 
+This is the repository which contains my answer to the Fullstack developer.
+
+
+It's a small task scheduler, and it's built on MongoDB, Node.js, Bootstrap and AngularJS.
+
+Please check it out at this URL: http://ec2-52-91-71-144.compute-1.amazonaws.com/.
+ 
