@@ -14,7 +14,7 @@ db.open(function(err, db) {
         db.collection('tasks', {strict:true}, function(err, collection) {
             if (err) {
                 console.log("The 'tasks' collection doesn't exist. Creating it with sample data...");
-                populateDB();
+              //  populateDB();
             }
         });
     }

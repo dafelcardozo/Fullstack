@@ -88,9 +88,10 @@
         </div>
       </uib-alert>
       <div ng-hide="overdue.length" class="well">No overdue tasks... don't get too overconfident !</div>
-      <div class="panel-group">
+      <div ng-hide="pending.length"  class="well">You have no pending tasks... lucky you ! You can start by <a  data-toggle="modal" data-target="#myModal">adding one</a>.</div>
+      <div class="panel-group" ng-show="pending.length">
         <div class="panel panel-primary">
-          <div class="panel-heading clearfix">
+          <div class="panel-heading clearfix" >
              <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Pending tasks </h4>
             <button type="button" name="button" data-toggle="modal" data-target="#myModal"  class="btn btn-success pull-right">
               <span class="glyphicon glyphicon-plus"></span>
@@ -130,8 +131,6 @@
           </div>
         </div>
       </div>
-
-
       <div class="panel-group" ng-show="completed.length">
         <div class="panel panel-primary">
           <div class="panel-heading clearfix">

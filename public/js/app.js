@@ -81,7 +81,7 @@ app.controller("myCtrl",  function($scope, $http, $httpParamSerializer) {
       });
     }
     $scope.priorityColor = function (priority) {
-      var classes = {"Inmediate":"danger", "Low":"info", "High":"warning"};
+      var classes = {"Inmediate":"danger", "Low":"info", "High priority":"warning", "Default, unspecified":"info"};
       return classes[priority];
     }
     $scope.complete = function(task) {
