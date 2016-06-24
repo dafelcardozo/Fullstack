@@ -11,7 +11,8 @@
   },
   "main": "server.js",
   "devDependencies": {
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "gulp-cache-bust": "^1.0.2"
   },
   "repository": {
     "type": "git",

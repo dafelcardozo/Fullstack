@@ -3,6 +3,7 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var minify = require('gulp-minify-css');
 var rename = require("gulp-rename");
+var cachebust = require('gulp-cache-bust');
 
 gulp.task('js', function(){
    gulp.src(['./public/js/jquery/dist/jquery.js', './public/js/bootstrap/dist/js/bootstrap.js', './public/js/angular/angular.js',
@@ -11,6 +12,9 @@ gulp.task('js', function(){
  ])
   .pipe(concat('build.js', {newLine: ';'}))
   .pipe(uglify())
+  .pipe(cachebust({
+    type: 'timestamp'
+  }))
   .pipe(gulp.dest('./public/build/js'));
 });
 
@@ -19,7 +23,6 @@ gulp.task('css', function(){
  './public/js/angular-bootstrap/ui-bootstrap-csp.css', './public/startbootstrap-freelancer-1.0.5/css/freelancer.css', './public/startbootstrap-freelancer-1.0.5/font-awesome/css/font-awesome.css'])
    .pipe(concat('build.css', {newLine: ';'}))
    .pipe(minify())
-//   .pipe(rename('build.css'))
    .pipe(gulp.dest('./public/build/css'));
 });
 
