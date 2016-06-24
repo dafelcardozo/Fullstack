@@ -1,9 +1,33 @@
 {
-    "name": "wine-cellar",
-    "description": "Wine Cellar Application",
-    "version": "0.0.1",
-    "private": true,
-    "dependencies": {
-        "express": "3.x"
-    }
+  "name": "fullstack-developer-test",
+  "description": "Wine Cellar Application",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "3.x"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "main": "server.js",
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dafelcardozo/Fullstack.git"
+  },
+  "keywords": [
+    "Test",
+    "demo",
+    "MongoDB",
+    "Node.js",
+    "AngularJS"
+  ],
+  "author": "David Felipe Cardozo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dafelcardozo/Fullstack/issues"
+  },
+  "homepage": "https://github.com/dafelcardozo/Fullstack#readme"
 }
