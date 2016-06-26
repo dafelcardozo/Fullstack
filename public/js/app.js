@@ -1,6 +1,16 @@
-
 var app = angular.module("myApp", [  'ui.bootstrap', 'ui.bootstrap.modal',
     'ui.bootstrap.tpls']);
+
+function getMinOfArray(numArray) {
+  return Math.min.apply(null, numArray);
+}
+var toType = function(obj) {
+  return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
+}
+
+Array.prototype.min = function() {
+  return Math.min.apply(null, this);
+};
 
 app.controller("myCtrl",  function($scope, $http, $httpParamSerializer) {
     $scope.headers = ["Priority", "Task", "Due Date"];
@@ -16,6 +26,13 @@ app.controller("myCtrl",  function($scope, $http, $httpParamSerializer) {
       $http.get("/tasks/pending/?"+p)
       .then(function(response) {
           $scope.pending = response.data;
+          if ($scope.pending.length) {
+            var array =   $scope.pending.map(function (task){
+                return new Date(task.dueDate);
+              });
+            var expiration = array.min();
+            setTimeout($scope.load, expiration-new Date());
+          }
       });
       $http.get("/tasks/overdue/")
       .then(function(response) {
@@ -26,19 +43,6 @@ app.controller("myCtrl",  function($scope, $http, $httpParamSerializer) {
           $scope.completed = response.data;
       });
     }
-
-    $scope.loadOverdue = function() {
-      var p = $httpParamSerializer({
-           field:$scope.sortBy,
-           order:$scope.order
-         });
-      $http.get("/task/?"+p)
-      .then(function(response) {
-          $scope.overdue = response.data;
-          $scope.pending = response.data;
-      });
-    }
-
     $scope.formatDate = function (date){
       return moment(date).format("dddd, MMMM Do YYYY, h:mm:ss a");
     }
@@ -58,27 +62,17 @@ app.controller("myCtrl",  function($scope, $http, $httpParamSerializer) {
           priority:$scope.priority,
           dueDate:dueDate
         };
-        console.info("task.dueDate: "+task.dueDate);
         $http.post("/task/", task).then(function () {
           $scope.load();
           $scope.name = null;
           $scope.priority = null;
-        //   $scope.created = true;
-        //   setTimeout(function() {
-        //     console.info("Closing");
-        //      //$(".alert").alert('close');
-        //      $scope.created = null;
-        //  }, 2000);
         });
 
-      }, 1000);
-
+      }, 100);
     }
     $scope.delete = function (task) {
       $http.get("/task/destroy/"+task._id)
-      .then(function () {
-        $scope.load();
-      });
+      .then($scope.load);
     }
     $scope.priorityColor = function (priority) {
       var classes = {"Inmediate":"danger", "Low":"info", "High priority":"warning", "Default, unspecified":"info"};
@@ -86,15 +80,11 @@ app.controller("myCtrl",  function($scope, $http, $httpParamSerializer) {
     }
     $scope.complete = function(task) {
       $http.post("/task/update/"+task._id, task)
-      .then(function () {
-        $scope.load();
-      });
+      .then($scope.load);
     }
     $scope.undoComplete = function(task) {
       $http.post("/task/undo/"+task._id, task)
-      .then(function () {
-        $scope.load();
-      });
+      .then($scope.load);
     }
     $scope.load();
 });

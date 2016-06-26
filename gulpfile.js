@@ -3,7 +3,6 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var minify = require('gulp-minify-css');
 var rename = require("gulp-rename");
-var cachebust = require('gulp-cache-bust');
 
 gulp.task('js', function(){
    gulp.src(['./public/js/jquery/dist/jquery.js', './public/js/bootstrap/dist/js/bootstrap.js', './public/js/angular/angular.js',
@@ -12,9 +11,6 @@ gulp.task('js', function(){
  ])
   .pipe(concat('build.js', {newLine: ';'}))
   .pipe(uglify())
-  .pipe(cachebust({
-    type: 'timestamp'
-  }))
   .pipe(gulp.dest('./public/build/js'));
 });
 
