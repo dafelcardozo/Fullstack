@@ -1,13 +1,6 @@
 var app = angular.module("myApp", [  'ui.bootstrap', 'ui.bootstrap.modal',
     'ui.bootstrap.tpls']);
 
-function getMinOfArray(numArray) {
-  return Math.min.apply(null, numArray);
-}
-var toType = function(obj) {
-  return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
-}
-
 Array.prototype.min = function() {
   return Math.min.apply(null, this);
 };
